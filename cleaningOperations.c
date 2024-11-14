@@ -30,24 +30,31 @@ float* read_data(float *rows, float *columns) {
         exit(1);
     }
 
-    float *p = malloc(*rows * *columns * sizeof(float));
+    // allocates memory for the 2D array using the specified rows and columns
+    float (*p)[(int)*columns] = malloc(*rows * *columns * sizeof(float));
     if (p == NULL) {
         fprintf(stderr, "Could not Allocate Memory.\n");
         exit(1);
     }
 
+    // intializes variables to process the loop and assign values
     float value;
-    // starts reading from after the first two values
-    for (int i = 0; i < *rows * *columns; i++) {
-        // scans each element in the text file, and converts to a float
-        if (fscanf(stdin, "%f", &value) == 1) {
-            p[i] = value;   // appends each value to array 
-        }
-        else {
-            fprintf(stderr, "Could not Read Data.");
+    // iterates over each row
+    for (int i = 0; i < (int)(*rows); i++) {
+        // iterates over each column
+        for (int j = 0; j < (int)(*columns); j++) {
+            // reads each value, and assigns it to the corresponding entry that we are iterating at
+            if (fscanf(stdin, "%f", &value) == 1) {
+                p[i][j] = value;
+                printf("Value: %.2f     (Row: %d, Column: %d)\n", value, i, j);
+            } else {
+                fprintf(stderr, "Error: Could not read data at Row %d, Column %d.\n", i, j);
+                free(p); // free allocated memory on error
+                exit(1);
+            }
         }
     }
-    return p;
+    return (float*)p;   // casts 2D array as a float* to return it 
 }
 
 

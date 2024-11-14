@@ -4,7 +4,7 @@
  * The following functions are used to clean the array data given from the user.
  */
 
-float* read_data(int *rows, int *columns);
-float* clean_delete(float* initialArray, int rows, int columns);
-void clean_impute(float* initialArray, int rows, int columns);
-void output_data(float* initialArray, int rows, int columns);
+float* read_data(float *rows, float *columns);
+float* clean_delete(float* array, float rows, float columns);
+void clean_impute(float* array, float rows, float columns);
+void output_data(float* array, float rows, float columns);

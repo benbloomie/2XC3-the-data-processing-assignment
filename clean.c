@@ -18,7 +18,7 @@
  *  This function first checks if the -d flag was used, to determine which cleaning method to use on the data.
  */
 int main(int argc, char *argv[]) {
-    int rows, columns;
+    float rows, columns;
     float *createdArray = read_data(&rows, &columns);
 
     // if the -d flag is recognized when calling scanParameters use the deletion method

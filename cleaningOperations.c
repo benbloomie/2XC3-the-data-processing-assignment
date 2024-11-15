@@ -23,7 +23,6 @@
         // special casing for NAN where scanf assigns it to special float value nan
 // returns the array after iterating through rows i and columns j
 float* read_data(float *rows, float *columns) {
-
     // reads the first two strings from standard input
     if (fscanf(stdin, "%f %f", rows, columns) != 2) {
         fprintf(stderr, "Could not read row and column values. \n");  
@@ -54,7 +53,7 @@ float* read_data(float *rows, float *columns) {
             }
         }
     }
-    return (float*)p;   // casts 2D array as a float* to return it 
+    return (float*)p;
 }
 
 
@@ -66,7 +65,10 @@ float* read_data(float *rows, float *columns) {
     // if a row does not have a nan element, add the row to the newArray
     // USE REALLOC TO DO SO
 // return final array
-float* clean_delete(float* array, float rows, float columns) {
+float* clean_delete(float* array, int rows, int columns) {
+    // CAST AS 2D
+    // ITERATE THROUGH
+    // DELETE BAD ROW
     return NULL;
 }
 
@@ -78,21 +80,48 @@ float* clean_delete(float* array, float rows, float columns) {
         // if the column only has nan, replace all with 0
         // use math.h, isnan to do this
     // add each new element to newArray
-void clean_impute(float* array, float rows, float columns) {
+void clean_impute(float* array, int rows, int columns) {
+    float (*p)[columns] = (float (*)[columns])array;    // cast array as a 2D array
 
+    for (int i = 0; i < rows; i++) {
+        // iterates over each column
+        for (int j = 0; j < columns; j++) {
+            // checks if the current element in the array reads nan
+            if (isnan(p[i][j])) {   
+                float columnTotal = 0;
+                int numbers = 0;
+                
+                // loops through each element in the column where nan was located
+                for (int k = 0; k < rows; k++) {
+                    // checks if the current element is a valid number
+                    if (!isnan(p[k][j])) {
+                        columnTotal += p[k][j];
+                        numbers ++; // increments counter of valid numbers in the column
+                    }
+
+                }
+                // checks how many valid numbers were in the row
+                if (numbers > 0) {
+                    p[i][j] = (columnTotal / numbers);  // assigns the nan entry to the average of valid numbers
+                }
+                else {
+                    p[i][j] = 0;    // assigns the nan entry to 0, if no valid numbers are in the column
+                }
+            }
+        }
+    }
 }
 
-void output_data(float* array, float rows, float columns) {
-    printf("%.0f %.0f \n", rows, columns);
+void output_data(float* array, int rows, int columns) {
+    float (*p)[columns] = (float (*)[columns])array;    // casts array to a 2D pointer
+    printf("%d %d \n", rows, columns);  // prints out rows and columns
+
+    // iterates through each row (i) and column (j) in the array
     for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; j++) {
-            int outputValue = i * (int)columns + j;
-            if (isnan(array[outputValue])) {
-                array[outputValue] = 0;
-            }
-            printf("%.3f ", array[outputValue]);
+        for (int j = 0; j < columns; j ++) {
+            printf("%.3f ", p[i][j]);
         }
-        puts("");
+        puts("");   // adds a new line after each row
     }
 }
 

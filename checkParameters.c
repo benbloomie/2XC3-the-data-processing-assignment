@@ -37,15 +37,13 @@ int scanParameters(int argc, char *argv[]) {
         }
         // if -d flag is used, return 1
         else if (strcmp(argv[1], "-d") == 0) {
+            puts("-d USED");
             return 1;
         }
-        // if -d flag is not used, return 0
-        else {
-            return 0;
-        }
     }
-    // if the user does not input enough arguments, exit with code 1
+    // if -d flag is not used, return 0
     else {
-        exit(1);
+        puts("no -d USED");
+        return 0;
     }
 }

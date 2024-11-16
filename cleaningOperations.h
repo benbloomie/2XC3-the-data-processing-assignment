@@ -5,6 +5,6 @@
  */
 
 float* read_data(float *rows, float *columns);
-float* clean_delete(float* array, int rows, int columns);
+float* clean_delete(float* array, int rows, int columns, int *newRows);
 void clean_impute(float* array, int rows, int columns);
 void output_data(float* array, int rows, int columns);

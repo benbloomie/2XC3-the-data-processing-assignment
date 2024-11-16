@@ -53,7 +53,7 @@ float* read_data(float *rows, float *columns) {
             }
         }
     }
-    return (float*)p;
+    return (float*)p;   // casts back to 1D array to return
 }
 
 
@@ -65,11 +65,42 @@ float* read_data(float *rows, float *columns) {
     // if a row does not have a nan element, add the row to the newArray
     // USE REALLOC TO DO SO
 // return final array
-float* clean_delete(float* array, int rows, int columns) {
-    // CAST AS 2D
-    // ITERATE THROUGH
-    // DELETE BAD ROW
-    return NULL;
+float* clean_delete(float* array, int rows, int columns, int *newRows) {
+    float (*p)[columns] = (float (*)[columns])array;    // cast array as a 2D array
+
+    // allocates values for the copied array
+    *newRows = 0;
+    float* newArray = NULL;
+
+    // iterates over each row
+    for (int i = 0; i < rows; i++) {
+        int nanIsFound = 0; // initializes a counter to 0 for each row, to track occurences of nan
+        // iterates over each column
+        for (int j = 0; j < columns; j++) {
+            // if nan is found, increment counter to indicate the row has a nand element
+            if (isnan(p[i][j])) {
+                nanIsFound++;
+                break;
+            }
+        }
+        // if the row has no nan elements, create the space in the new array
+        if (nanIsFound == 0) {
+            *newRows += 1;    // updates row count for new array
+            newArray = realloc(newArray, *newRows * columns * sizeof(float));  // allocates memory for updated array size
+            if (newArray == NULL) {
+                fprintf(stderr, "Could not Allocate Memory for Re-Allocation.\n");
+                exit(1);
+            }
+
+            float (*q)[columns] = (float (*)[columns])newArray; // casts newArray as a 2D array to copy over data
+            // iterates through each value in the column
+            for (int k = 0; k < columns; k++) {
+                q[(*newRows) - 1][k] = p[i][k]; // appends each element in row i and column k to the new 2D array
+            }
+
+        }
+    }
+    return (float*)newArray;
 }
 
 
@@ -112,6 +143,7 @@ void clean_impute(float* array, int rows, int columns) {
     }
 }
 
+// COMMENT
 void output_data(float* array, int rows, int columns) {
     float (*p)[columns] = (float (*)[columns])array;    // casts array to a 2D pointer
     printf("%d %d \n", rows, columns);  // prints out rows and columns

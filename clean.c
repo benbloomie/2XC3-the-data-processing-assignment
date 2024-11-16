@@ -18,14 +18,16 @@
  *  This function first checks if the -d flag was used, to determine which cleaning method to use on the data.
  */
 int main(int argc, char *argv[]) {
+    int perameterSelection = scanParameters(argc, argv);    // reads this first in case of --help usage
     float rows, columns;
     float *createdArray = read_data(&rows, &columns);
 
     // if the -d flag is recognized when calling scanParameters use the deletion method
-    if (scanParameters(argc, argv) == 1) {
+    if (perameterSelection == 1) {
         puts("USING DELETION");
-        float* cleanedArray = clean_delete(createdArray, rows, columns);
-        output_data(cleanedArray, rows, columns);
+        int newRows;
+        float* cleanedArray = clean_delete(createdArray, rows, columns, &newRows);
+        output_data(cleanedArray, newRows, columns);
         free(cleanedArray);
     }
     // if the -d flag is not recognized when calling scanParameters use the imputation method

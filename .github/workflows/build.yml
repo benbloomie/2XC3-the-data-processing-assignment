@@ -13,6 +13,9 @@ jobs:
       - name: Build using Makefile
         run: |
           make
+          ./clean < wbcd/wbcd.txt > cleaned_wbcd_impute.txt
+          ./clean -d < wbcd/wbcd-txt > cleaned_wbcd_delete.txt
+
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -20,3 +23,5 @@ jobs:
           name: Code Clean
           path: |
             ./clean
+            cleaned_wbcd_impute.txt
+            cleaned_wbcd_delete.txt

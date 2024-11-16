@@ -20,7 +20,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Code Clean
+          name: cleaned-data
           path: |
             ./clean
             cleaned_wbcd_impute.txt

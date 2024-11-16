@@ -45,7 +45,6 @@ float* read_data(float *rows, float *columns) {
             // reads each value, and assigns it to the corresponding entry that we are iterating at
             if (fscanf(stdin, "%f", &value) == 1) {
                 p[i][j] = value;
-                printf("Value: %.2f     (Row: %d, Column: %d)\n", value, i, j);
             } else {
                 fprintf(stderr, "Error: Could not read data at Row %d, Column %d.\n", i, j);
                 free(p); // free allocated memory on error

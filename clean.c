@@ -24,7 +24,6 @@ int main(int argc, char *argv[]) {
 
     // if the -d flag is recognized when calling scanParameters use the deletion method
     if (perameterSelection == 1) {
-        puts("USING DELETION");
         int newRows;
         float* cleanedArray = clean_delete(createdArray, rows, columns, &newRows);
         output_data(cleanedArray, newRows, columns);
@@ -32,7 +31,6 @@ int main(int argc, char *argv[]) {
     }
     // if the -d flag is not recognized when calling scanParameters use the imputation method
     else {
-        puts("USING IMPUTATION");
         clean_impute(createdArray, rows, columns);
         output_data(createdArray, rows, columns);
     }

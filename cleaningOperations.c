@@ -1,27 +1,28 @@
 /* Benjamin Bloomfield, bloomfib, November ##, 2024 
  *
- * This code implements the functions that are used to clean the given array data.
- * OTHER STUFF
- * MORE STUFF
+ * This code implements the functions that are used to clean the given array data, and output the cleaned results.
+ * It handles the initialization of the 2D array from file redirection, and implements various functions 
+ * that iterate through the data in the array, and clean it based on user specifications.
+ * It then outputs the cleaned data in the same format as the file it reads.
  */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 
-
-// Read each entry as a float
-// returns an array of floats, using standard input from text file
-// reads first line of text file
-    // *rows = first number
-    // *columns = second number 
-// initializes array using malloc, with rows and columns 
-// reads through rest of the file, creating a new array [TEST CASE FOR NULL]
-    // iterates through each row in the text file
-        // appends each element to a row in the 2D array
-        // columns are each value in the array
-        // special casing for NAN where scanf assigns it to special float value nan
-// returns the array after iterating through rows i and columns j
+/* Function Name: read_data
+ * 
+ * Parameters: 
+ *  float *rows --> Pointer to store the number of rows based on the given set of data
+ *  float *columns --> Pointer to store the number of columns
+ * Function Description:
+ *  Iterates through each entry in a text file, and converts it to a floating-point value.
+ *  Stores each value in a allocated 2D array.
+ *  Assigns the row and column value to the first and second numbers in the file correspondingly.
+ * Return Value and Output:
+ *  Returns a pointer to the 1D representation of the 2D array.
+ *  Outputs an error message if the memory could not be allocated, and exits with error code 1.
+ */
 float* read_data(float *rows, float *columns) {
     // reads the first two strings from standard input
     if (fscanf(stdin, "%f %f", rows, columns) != 2) {
@@ -31,6 +32,7 @@ float* read_data(float *rows, float *columns) {
 
     // allocates memory for the 2D array using the specified rows and columns
     float (*p)[(int)*columns] = malloc(*rows * *columns * sizeof(float));
+    // ensures the the memory was properly allocated
     if (p == NULL) {
         fprintf(stderr, "Could not Allocate Memory.\n");
         exit(1);
@@ -55,21 +57,25 @@ float* read_data(float *rows, float *columns) {
     return (float*)p;   // casts back to 1D array to return
 }
 
-
-// takes our initialized array from read_size, with rows and columns
-// initializes array using malloc, with rows and columns  
-// copy all the data from initialArray to this newArray
-// iterates through each element in initialArray [rows & columns]
-    // if it recognizes a row that has nan in it, don't append to the newArray
-    // if a row does not have a nan element, add the row to the newArray
-    // USE REALLOC TO DO SO
-// return final array
+/* Function Name: clean_delete
+ * 
+ * Parameters:
+ *  float* array --> Pointer to the 1D representation of the 2D array
+ *  int rows --> Number of rows in the original array
+ *  int columns --> Number of columns in the original array
+ *  int *newRows --> Pointer to store the new number of rows from the filtered array
+ * Function Description:
+ *  Iterates through the generated array from read_data, indicating any rows that include NaN.
+ *  Creates a new array, only featuring rows from the original array that don't contain NaN.
+ *  Allocates memory for the new array, and updates the new number of rows of the array.
+ * Return Value and Output
+ *  Returns a pointer to the 1D representation of the filtered 2D array.
+ *  Outputs an error message if the memory could not be allocated, and exits with error code 1.
+ */
 float* clean_delete(float* array, int rows, int columns, int *newRows) {
     float (*p)[columns] = (float (*)[columns])array;    // cast array as a 2D array
-
-    // allocates values for the copied array
-    *newRows = 0;
-    float* newArray = NULL;
+    *newRows = 0;  
+    float* newArray = NULL; // allocates the memory for the newArray
 
     // iterates over each row
     for (int i = 0; i < rows; i++) {
@@ -79,13 +85,14 @@ float* clean_delete(float* array, int rows, int columns, int *newRows) {
             // if nan is found, increment counter to indicate the row has a nand element
             if (isnan(p[i][j])) {
                 nanIsFound++;
-                break;
+                break;  // break, since we don't need to continue searching for nan
             }
         }
         // if the row has no nan elements, create the space in the new array
         if (nanIsFound == 0) {
             *newRows += 1;    // updates row count for new array
             newArray = realloc(newArray, *newRows * columns * sizeof(float));  // allocates memory for updated array size
+            // ensures the the memory was properly allocated
             if (newArray == NULL) {
                 fprintf(stderr, "Could not Allocate Memory for Re-Allocation.\n");
                 exit(1);
@@ -96,20 +103,18 @@ float* clean_delete(float* array, int rows, int columns, int *newRows) {
             for (int k = 0; k < columns; k++) {
                 q[(*newRows) - 1][k] = p[i][k]; // appends each element in row i and column k to the new 2D array
             }
-
         }
     }
     return (float*)newArray;
 }
 
-
-// takes our initialized array from read_size, with rows and columns
-// initializes array using malloc, with rows and columns
-// iterates through each element in initialArray [rows & columns]
-    // if scanf recongnizes nan, take the average of the numbers in the column, and replace it with that.
-        // if the column only has nan, replace all with 0
-        // use math.h, isnan to do this
-    // add each new element to newArray
+/* Function Name: clean_impute
+ * 
+ * Function Description:
+ *  Iterates through the original array, and replaces all NaN values with the average 
+ *  of all the non NaN values in the same column of where NaN was located.
+ *  If a column only contains NaN, each element is replaced by 0. 
+ */
 void clean_impute(float* array, int rows, int columns) {
     float (*p)[columns] = (float (*)[columns])array;    // cast array as a 2D array
 
@@ -118,6 +123,7 @@ void clean_impute(float* array, int rows, int columns) {
         for (int j = 0; j < columns; j++) {
             // checks if the current element in the array reads nan
             if (isnan(p[i][j])) {   
+                // instantiates variables to be used for further implementation while looping over the column
                 float columnTotal = 0;
                 int numbers = 0;
                 
@@ -142,10 +148,16 @@ void clean_impute(float* array, int rows, int columns) {
     }
 }
 
-// COMMENT
+/* Function Name: clean_delete
+ * 
+ * Function Description:
+ *  Iterates through each element in the array, and sends it to standard output.
+ *  Prints the number of rows and columns, followed by the array, in the same manner of the text file.
+ *  Called after applying modifications using the clean functions, to output the newly formatted array.
+ */
 void output_data(float* array, int rows, int columns) {
     float (*p)[columns] = (float (*)[columns])array;    // casts array to a 2D pointer
-    printf("%d %d \n", rows, columns);  // prints out rows and columns
+    printf("%d %d \n", rows, columns);  // prints out rows and columns before iterating through array
 
     // iterates through each row (i) and column (j) in the array
     for (int i = 0; i < rows; i++) {

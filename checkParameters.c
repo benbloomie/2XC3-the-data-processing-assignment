@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-/* Name of the function: printHelpMessage
+/* Function Name: printHelpMessage
  *
  * Function Description:
  *  Outputs a help message that guides the user on how to use the program properly.
@@ -17,7 +17,7 @@ int printHelpMessage() {
     puts("Usage: clean [-d]");
 }
 
-/* Name of the function: scanParameters
+/* Function Name: scanParameters
  *
  * Function Description:
  *  Scans command-line arguments to search for a -d or --help flag.

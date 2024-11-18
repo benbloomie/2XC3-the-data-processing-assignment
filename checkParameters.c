@@ -1,4 +1,4 @@
-/* Benjamin Bloomfield, bloomfib, November ##, 2024 
+/* Benjamin Bloomfield, bloomfib, November 17, 2024 
  *
  * This code works as a command-line utility, that checks for any additional parameters entered by the user.
  * It will scan for the -d flag, and return a value based on the arguments for additional implementation

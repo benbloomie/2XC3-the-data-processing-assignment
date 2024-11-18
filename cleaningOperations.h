@@ -1,4 +1,4 @@
- /*Benjamin Bloomfield, bloomfib, November ##, 2024 
+ /*Benjamin Bloomfield, bloomfib, November 17, 2024 
  *
  * Header file that contains function prototypes for cleaningOperations.c.
  * The following functions are used to clean the array data given from the user.

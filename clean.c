@@ -1,4 +1,4 @@
-/* Benjamin Bloomfield, bloomfib, November ##, 2024 
+/* Benjamin Bloomfield, bloomfib, November 17, 2024 
  *
  * This program processes all the functionalities that handle the cleaning of the array read from a given text file.
  * It scans for the '-d' flag to determine which cleaning functions to use, and calls the corresponding function.

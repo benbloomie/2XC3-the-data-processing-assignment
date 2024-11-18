@@ -1,4 +1,4 @@
-/* Benjamin Bloomfield, bloomfib, November 17, 2024 
+/* Benjamin Bloomfield, bloomfib, November 18, 2024 
  *
  * This code implements the functions that are used to clean the given array data, and output the cleaned results.
  * It handles the initialization of the 2D array from file redirection, and implements various functions 

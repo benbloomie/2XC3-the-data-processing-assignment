@@ -37,8 +37,6 @@ It reads data from standard input and writes the cleaned result to standard outp
 
 ## Executing the Program
 
-## Executing the Program
-
 Run the program using `clean`. Use the following options:
 
 - To clean data using the **default imputation strategy** (replace `NaN` with column averages):

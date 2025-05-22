@@ -23,8 +23,8 @@ It reads data from standard input and writes the cleaned result to standard outp
 1. Clone or download the repository:
 
     ```bash
-    git clone https://github.com/benbloomie/2XC3-the-data-processing-assignment
-    cd 2XC3-the-data-processing-assignment
+    git clone https://github.com/benbloomie/data-cleaning-utility
+    cd data-cleaning-utility
     ```
 
 2. Compile the program using the Makefile:
